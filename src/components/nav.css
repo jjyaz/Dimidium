@@ -1,0 +1,213 @@
+.nav-wrap {
+  position: sticky;
+  top: 1rem;
+  z-index: 1000;
+  width: min(var(--page-max), calc(100% - 2rem));
+  margin-inline: auto;
+}
+
+.nav-pill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: linear-gradient(170deg, var(--cream) 0%, var(--eggshell) 100%);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 0.55rem 0.7rem 0.55rem 1.15rem;
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.75),
+    inset 0 -2px 0 rgba(140, 120, 80, 0.18),
+    0 14px 36px -12px rgba(6, 24, 18, 0.6);
+}
+
+.nav-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--green-deep);
+  letter-spacing: -0.01em;
+}
+
+.nav-brand svg path:first-child {
+  fill: var(--green-deep);
+}
+
+.nav-brand svg path:nth-child(2) {
+  stroke: var(--eggshell);
+}
+
+.nav-brand svg circle {
+  fill: var(--eggshell);
+}
+
+.nav-links {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.nav-link {
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  text-decoration: none;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-link:hover {
+  background: rgba(23, 74, 53, 0.08);
+  color: var(--ink);
+}
+
+.nav-link.is-active {
+  background: var(--green-deep);
+  color: var(--cream);
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+}
+
+.wallet-area {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  position: relative;
+}
+
+.chain-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--yolk);
+  box-shadow: 0 0 0 3px rgba(239, 160, 68, 0.25);
+  flex-shrink: 0;
+}
+
+.chain-dot-live {
+  background: #5aa974;
+  box-shadow: 0 0 0 3px rgba(90, 169, 116, 0.3);
+}
+
+.wallet-error {
+  position: absolute;
+  top: calc(100% + 0.8rem);
+  right: 0;
+  background: var(--ink);
+  color: var(--cream);
+  font-size: 0.78rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 12px;
+  white-space: nowrap;
+  box-shadow: var(--shadow-float);
+}
+
+/* mobile shell toggle */
+.nav-shell-toggle {
+  display: none;
+  position: relative;
+  width: 44px;
+  height: 48px;
+  border: none;
+  cursor: pointer;
+  background:
+    radial-gradient(55% 42% at 36% 28%, rgba(255, 255, 255, 0.9), transparent 60%),
+    linear-gradient(160deg, var(--cream) 10%, #ddd2b7 100%);
+  border-radius: var(--radius-egg);
+  box-shadow:
+    inset 0 -2px 0 rgba(140, 120, 80, 0.25),
+    0 6px 14px -6px rgba(6, 24, 18, 0.5);
+}
+
+.shell-toggle-crack {
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  top: 46%;
+  height: 3px;
+  background: var(--green-deep);
+  clip-path: polygon(0 40%, 14% 100%, 30% 0, 48% 100%, 64% 0, 82% 100%, 100% 30%, 100% 100%, 0 100%);
+  transition: transform 0.25s var(--ease-squish);
+}
+
+.shell-toggle-crack.is-open {
+  transform: scaleY(2.4) translateY(-1px);
+}
+
+.nav-mobile {
+  display: none;
+}
+
+@media (max-width: 860px) {
+  .nav-links,
+  .nav-right {
+    display: none;
+  }
+
+  .nav-shell-toggle {
+    display: block;
+  }
+
+  .nav-pill {
+    padding-block: 0.45rem;
+  }
+
+  .nav-mobile {
+    display: grid;
+    gap: 0.4rem;
+    margin-top: 0.6rem;
+    background: linear-gradient(170deg, var(--cream) 0%, var(--eggshell) 100%);
+    border-radius: 28px;
+    padding: 1rem;
+    box-shadow: var(--shadow-float);
+    transform-origin: top center;
+    transition:
+      opacity 0.25s ease,
+      transform 0.25s var(--ease-squish),
+      visibility 0.25s;
+    opacity: 0;
+    transform: scaleY(0.8) translateY(-8px);
+    visibility: hidden;
+    position: absolute;
+    inset-inline: 0;
+  }
+
+  .nav-mobile.is-open {
+    opacity: 1;
+    transform: none;
+    visibility: visible;
+  }
+
+  .nav-mobile-link {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 0.7rem 1rem;
+    border-radius: 16px;
+  }
+
+  .nav-mobile-link:hover {
+    background: rgba(23, 74, 53, 0.08);
+  }
+
+  .nav-mobile-link.is-active {
+    background: var(--green-deep);
+    color: var(--cream);
+  }
+
+  .nav-mobile-wallet {
+    padding: 0.4rem 1rem 0.2rem;
+    border-top: 1px solid rgba(23, 74, 53, 0.12);
+    margin-top: 0.3rem;
+    padding-top: 0.8rem;
+  }
+}
