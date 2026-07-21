@@ -46,9 +46,19 @@ Then open the printed local URL. Build for production with `npm run build`.
 The app uses Wagmi + Viem and is configured for **Robinhood Chain Testnet**
 (chain id `46630`, RPC `https://rpc.testnet.chain.robinhood.com`). Everything
 works without a wallet in Demo Mode. All chain configuration lives in
-`src/chain/config.ts`; set `VITE_DIMIDIUM_CONTRACT` to wire in a commitment
-contract later. While no contract address is configured, the app never
-attempts a transaction.
+`src/chain/config.ts`; set `VITE_DIMIDIUM_CONTRACT` to wire in the commitment
+contract. While no contract address is configured, the app never attempts a
+transaction.
+
+## Smart contract
+
+`contracts/` holds a Foundry project with `DimidiumNursery.sol`, the onchain
+commitment contract: hashed intentions go in (`commit`), timers can stretch
+(`extend`), and decisions resolve as `hatch` or `shell`, returning any
+escrowed patience bond in full either way. A post-resolution `reveal` proves
+what the sealed intention was. See `contracts/README.md` for deploy
+instructions; the generated ABI is exported to the frontend at
+`src/chain/nurseryAbi.ts`.
 
 ## Tech
 
