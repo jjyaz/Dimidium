@@ -1,0 +1,433 @@
+.detail {
+  padding-block: clamp(2rem, 5vw, 4rem);
+}
+
+.detail-missing {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.1rem;
+  text-align: center;
+  padding-block: 4rem;
+}
+
+.detail-missing h1 {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+}
+
+.detail-missing p {
+  color: var(--cream-60);
+  max-width: 42ch;
+}
+
+/* --- top ------------------------------------------------------------- */
+
+.detail-top {
+  display: grid;
+  grid-template-columns: minmax(220px, 320px) minmax(0, 1fr);
+  gap: clamp(1.5rem, 5vw, 4rem);
+  align-items: center;
+}
+
+.detail-egg {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 260px;
+  background: radial-gradient(60% 55% at 50% 60%, rgba(32, 90, 64, 0.9), transparent 75%);
+  border-radius: var(--radius-blob);
+}
+
+.detail-egg.fx-hatching .clay-egg-holder {
+  animation: hatchPop 1s var(--ease-squish);
+}
+
+@keyframes hatchPop {
+  0% { transform: scale(1); }
+  25% { transform: scale(0.9) rotate(-3deg); }
+  55% { transform: scale(1.12) rotate(2deg); }
+  100% { transform: scale(1); }
+}
+
+.detail-egg.fx-shelling .clay-egg-holder {
+  animation: softClose 1s ease;
+}
+
+@keyframes softClose {
+  0% { transform: scale(1.05); }
+  50% { transform: scale(0.94); }
+  100% { transform: scale(1); }
+}
+
+.detail-egg.fx-stretching .clay-egg-holder {
+  animation: comicStretch 0.55s var(--ease-squish);
+  transform-origin: 50% 100%;
+}
+
+@keyframes comicStretch {
+  0% { transform: scaleY(1); }
+  40% { transform: scaleY(1.28) scaleX(0.88); }
+  70% { transform: scaleY(0.92) scaleX(1.08); }
+  100% { transform: scaleY(1); }
+}
+
+.confetti {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  width: 10px;
+  height: 7px;
+  border-radius: 60% 40% 55% 45% / 60% 55% 45% 40%;
+  animation: confettiFly 1s ease-out forwards;
+}
+
+@keyframes confettiFly {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+    opacity: 1;
+  }
+  to {
+    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(var(--rot));
+    opacity: 0;
+  }
+}
+
+.relieved-mascot {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  animation: bubblePop 0.4s var(--ease-squish) both;
+}
+
+.relieved-mascot img {
+  width: 150px;
+}
+
+.detail-summary {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.9rem;
+}
+
+.detail-heading {
+  font-size: clamp(1.7rem, 4vw, 2.7rem);
+  max-width: 22ch;
+}
+
+.detail-mood {
+  color: var(--cream-60);
+  font-style: italic;
+}
+
+.countdown {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.countdown-num {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.6rem, 3.4vw, 2.3rem);
+  color: var(--yolk);
+  font-variant-numeric: tabular-nums;
+}
+
+.countdown-label {
+  color: var(--cream-60);
+  font-size: 0.9rem;
+}
+
+.detail-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2.2rem;
+  margin: 0.4rem 0 0;
+}
+
+.detail-facts dt {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sage);
+}
+
+.detail-facts dd {
+  margin: 0.15rem 0 0;
+  font-weight: 600;
+}
+
+.detail-note {
+  margin: 0.4rem 0 0;
+  background: var(--cream-08);
+  border-left: 4px solid var(--yolk);
+  border-radius: 4px 22px 22px 4px;
+  padding: 0.9rem 1.2rem;
+  color: var(--eggshell);
+  max-width: 52ch;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.detail-note-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sage);
+  font-style: normal;
+}
+
+/* --- twin paths ------------------------------------------------------- */
+
+.twin {
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+}
+
+.twin-split {
+  display: block;
+  width: min(600px, 90%);
+  height: 90px;
+  margin: 0 auto -12px;
+}
+
+.twin-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: clamp(1rem, 3vw, 2.4rem);
+  align-items: stretch;
+}
+
+.twin-path {
+  position: relative;
+  padding: 1.6rem 1.6rem 1.4rem;
+  border-radius: 46px 60px 52px 44px / 54px 44px 58px 48px;
+  background: rgba(16, 46, 36, 0.5);
+  border: 1px solid var(--cream-14);
+  transition: transform 0.3s var(--ease-squish), border-color 0.3s ease;
+}
+
+.twin-shell {
+  border-radius: 58px 44px 48px 60px / 46px 56px 44px 56px;
+}
+
+.twin-path.is-leading {
+  border-color: var(--cream-38);
+  transform: translateY(-4px);
+}
+
+.twin-path header {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 0.8rem;
+}
+
+.twin-path h2 {
+  font-size: 1.15rem;
+  font-weight: 500;
+}
+
+.twin-tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.28rem 0.7rem;
+  border-radius: 999px;
+}
+
+.twin-hatch .twin-tag {
+  background: rgba(239, 160, 68, 0.18);
+  color: var(--yolk);
+}
+
+.twin-shell .twin-tag {
+  background: rgba(185, 203, 183, 0.16);
+  color: var(--sage);
+}
+
+.twin-chart {
+  width: 100%;
+  height: auto;
+}
+
+.twin-grid {
+  stroke: var(--cream-14);
+  stroke-width: 1;
+  stroke-dasharray: 3 7;
+  stroke-linecap: round;
+}
+
+.twin-grid-faint {
+  opacity: 0.5;
+}
+
+.twin-line {
+  fill: none;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.twin-line-ghost {
+  fill: none;
+  stroke: var(--cream-14);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.twin-line-hatch {
+  stroke: var(--yolk);
+}
+
+.twin-line-shell {
+  stroke: var(--sage);
+}
+
+.twin-value {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.6rem;
+  margin-top: 0.5rem;
+}
+
+.twin-caption {
+  color: var(--cream-60);
+  font-size: 0.85rem;
+  margin-top: 0.2rem;
+}
+
+.twin-diff {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  text-align: center;
+  padding: 1.2rem 1.4rem;
+  background: var(--eggshell);
+  color: var(--ink);
+  border-radius: var(--radius-blob);
+  box-shadow: var(--shadow-clay);
+  min-width: 170px;
+}
+
+.twin-diff-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(16, 46, 36, 0.6);
+}
+
+.twin-diff-num {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.twin-diff-num.is-hatch {
+  color: #b06f1e;
+}
+
+.twin-diff-num.is-shell {
+  color: var(--green-rich);
+}
+
+.twin-diff-half {
+  font-size: 0.8rem;
+  color: rgba(16, 46, 36, 0.75);
+}
+
+/* --- actions ----------------------------------------------------------- */
+
+.detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  justify-content: center;
+  margin-top: clamp(2rem, 5vw, 3.2rem);
+}
+
+.detail-resolved-line {
+  color: var(--cream-60);
+  font-style: italic;
+  text-align: center;
+}
+
+.detail-resolved-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.detail-flash {
+  position: fixed;
+  bottom: 1.6rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1500;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  box-shadow: var(--shadow-float);
+  animation: bubblePop 0.35s var(--ease-squish) both;
+}
+
+.detail-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-top: clamp(2.4rem, 6vw, 4rem);
+}
+
+.detail-footer-links a {
+  color: var(--cream-60);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.detail-footer-links a:hover {
+  color: var(--cream);
+}
+
+@media (max-width: 900px) {
+  .detail-top {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-egg {
+    min-height: 220px;
+  }
+
+  .twin-cols {
+    grid-template-columns: 1fr;
+  }
+
+  .twin-split {
+    display: none;
+  }
+
+  .twin-diff {
+    order: 2;
+    justify-self: center;
+  }
+
+  .twin-shell {
+    order: 3;
+  }
+}
