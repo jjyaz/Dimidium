@@ -27,11 +27,26 @@ try {
   await page.goto(BASE, { waitUntil: 'networkidle0' })
   check('home loads', (await page.title()).includes('Dimidium'))
 
-  // 2. Boop the mascot -> speech bubble
+  // 2. Boop the mascot -> speech bubble + washi counter increments
+  const washiBefore = await page.$eval('.footer-washi-num', (el) =>
+    Number(el.textContent.replace(/,/g, '')),
+  )
   await page.click('.mascot-button')
   await page.waitForSelector('.mascot-bubble', { timeout: 3000 })
   const bubbleText = await page.$eval('.mascot-bubble', (el) => el.textContent)
   check('mascot boop shows bubble', !!bubbleText, bubbleText)
+  const washiAfter = await page.$eval('.footer-washi-num', (el) =>
+    Number(el.textContent.replace(/,/g, '')),
+  )
+  check(
+    'washi counter increments on boop',
+    washiAfter === washiBefore + 1,
+    `${washiBefore} -> ${washiAfter}`,
+  )
+
+  // 2b. Mood ring starts calm (2 seeds incubating, none ready)
+  const mood0 = await page.$eval('.nav-brand', (el) => el.dataset.mood)
+  check('mood ring starts calm', mood0 === 'calm', mood0)
 
   // 3. Composer validation error on empty amount
   await page.evaluate(() => {
@@ -55,6 +70,10 @@ try {
   )
   const eggUrl = page.url()
   check('navigates to incubation detail', true, eggUrl)
+
+  // 4b. Third incubating egg -> Dimidium gets sleepy
+  const mood1 = await page.$eval('.nav-brand', (el) => el.dataset.mood)
+  check('mood ring goes sleepy with 3 incubating', mood1 === 'sleepy', mood1)
 
   // 5. Detail page shows countdown + twin paths
   await page.waitForSelector('.countdown-num')
@@ -93,6 +112,25 @@ try {
   const readyCount = (await page.$$('.specimen')).length
   check('ready filter shows list or empty state', readyEmpty !== null || readyCount > 0)
   await page.screenshot({ path: `${shots}/e2e-nursery.png` })
+
+  // 8b. Regret receipt on a shelled decision
+  await page.goto(`${BASE}/egg/seed-63`, { waitUntil: 'networkidle0' })
+  await page.waitForSelector('.receipt', { timeout: 4000 })
+  const receiptCaption = await page.$eval('.receipt-caption', (el) => el.textContent)
+  check(
+    'regret receipt renders with caption',
+    /I almost .+ I didn't\. I (saved|lost) \$/.test(receiptCaption),
+    receiptCaption.slice(0, 80),
+  )
+  const receiptBtns = await page.$$eval('.receipt-actions button', (els) =>
+    els.map((e) => e.textContent),
+  )
+  check(
+    'receipt share/copy buttons present',
+    receiptBtns.length === 2,
+    receiptBtns.join(' | '),
+  )
+  await page.screenshot({ path: `${shots}/e2e-receipt.png` })
 
   // 9. DNA page renders yolk + fragments
   await page.goto(`${BASE}/dna`, { waitUntil: 'networkidle0' })
