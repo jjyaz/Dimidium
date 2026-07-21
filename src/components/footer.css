@@ -42,6 +42,23 @@
   font-style: italic;
 }
 
+.footer-washi {
+  width: 100%;
+  color: var(--cream-38);
+  font-size: 0.78rem;
+}
+
+.footer-washi em {
+  color: var(--yolk);
+  font-style: normal;
+  font-family: var(--font-display);
+}
+
+.footer-washi-num {
+  font-variant-numeric: tabular-nums;
+  color: var(--cream-60);
+}
+
 @media (max-width: 640px) {
   .footer-inner {
     flex-direction: column;

@@ -1,7 +1,10 @@
 import { Mascot } from './Mascot'
+import { useWashiCount } from '../lib/washi'
 import './footer.css'
 
 export function Footer() {
+  const washi = useWashiCount()
+
   return (
     <footer className="footer">
       <Mascot variant="peek" />
@@ -17,6 +20,13 @@ export function Footer() {
         </div>
         <p className="footer-whisper">
           No eggs were traded during this simulation.
+        </p>
+        <p className="footer-washi" data-testid="washi-stat">
+          Dimidium has whispered <em>Washi Washi</em>{' '}
+          <span className="footer-washi-num">
+            {washi.toLocaleString('en-US')}
+          </span>{' '}
+          times.
         </p>
       </div>
     </footer>

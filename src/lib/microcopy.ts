@@ -5,6 +5,7 @@ export const MASCOT_LINES = [
   'Other half checking in.',
   'I have seen things. Mostly candles.',
   'No rush. I am an egg.',
+  'Washi washi.',
 ] as const
 
 export const INCUBATING_LINES = [

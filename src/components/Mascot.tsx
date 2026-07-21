@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import mascotFull from '../assets/dimidium.webp'
 import mascotSmall from '../assets/dimidium-small.webp'
 import { MASCOT_LINES, randomLine } from '../lib/microcopy'
+import { incrementWashi } from '../lib/washi'
 import { usePrefersReducedMotion } from '../lib/time'
 import './mascot.css'
 
@@ -67,6 +68,7 @@ export function Mascot({ variant = 'hero', className = '' }: MascotProps) {
   }, [])
 
   const boop = useCallback(() => {
+    incrementWashi()
     if (!reducedMotion) {
       setWobbling(true)
       setTimeout(() => setWobbling(false), 650)
