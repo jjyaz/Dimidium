@@ -25,12 +25,15 @@ export const robinhoodChainTestnet = defineChain({
 })
 
 /**
- * Address of the Dimidium commitment contract.
+ * Address of the DimidiumNursery commitment contract (see contracts/).
  * Leave empty for Demo Mode — the app will never attempt a transaction
- * while this is unset.
+ * while this is unset. Set VITE_DIMIDIUM_CONTRACT after deploying with
+ * contracts/script/Deploy.s.sol.
  */
 export const DIMIDIUM_CONTRACT_ADDRESS: `0x${string}` | '' =
   (import.meta.env.VITE_DIMIDIUM_CONTRACT as `0x${string}` | undefined) ?? ''
+
+export { dimidiumNurseryAbi } from './nurseryAbi'
 
 export const isDemoMode = DIMIDIUM_CONTRACT_ADDRESS === ''
 
