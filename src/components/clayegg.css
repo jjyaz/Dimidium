@@ -1,0 +1,66 @@
+.clay-egg-holder {
+  position: relative;
+  display: inline-grid;
+  place-items: end center;
+  padding-bottom: 6px;
+}
+
+.clay-egg-holder.mode-trembling .clay-egg {
+  animation: eggTremble 3.8s ease-in-out infinite;
+  transform-origin: 50% 90%;
+}
+
+.clay-egg-holder.mode-cracked .clay-egg {
+  border-radius: 50% 50% 50% 50% / 30% 30% 60% 60%;
+  height: calc(var(--egg-size, 96px) * 0.92);
+  clip-path: polygon(
+    0 34%, 8% 22%, 15% 34%, 25% 16%, 34% 32%, 45% 14%, 55% 30%,
+    66% 14%, 75% 30%, 85% 18%, 93% 32%, 100% 24%,
+    100% 100%, 0 100%
+  );
+}
+
+.clay-lid {
+  position: absolute;
+  top: -38%;
+  left: 12%;
+  width: 62%;
+  height: 36%;
+  border-radius: 50% 50% 40% 40% / 80% 80% 20% 20%;
+  background: linear-gradient(150deg, var(--cream) 12%, #ddd2b7 100%);
+  box-shadow: inset 0 3px 2px rgba(255, 255, 255, 0.6), 0 10px 16px -8px rgba(6, 24, 18, 0.55);
+  transform: rotate(-14deg);
+}
+
+.clay-yolk-peek {
+  position: absolute;
+  top: 4%;
+  left: 26%;
+  width: 48%;
+  height: 26%;
+  border-radius: 50%;
+  background: radial-gradient(60% 55% at 42% 34%, #f7bd72, var(--yolk) 70%, #d68a2e 100%);
+  box-shadow: inset 0 -3px 6px rgba(120, 62, 10, 0.4);
+}
+
+.clay-chip {
+  position: absolute;
+  bottom: 0;
+  width: calc(var(--egg-size, 96px) * 0.34);
+  height: calc(var(--egg-size, 96px) * 0.16);
+  border-radius: 8% 92% 50% 50% / 100% 100% 0% 0%;
+  background: linear-gradient(160deg, var(--cream) 20%, #ddd2b7 90%);
+  box-shadow: inset 0 2px 2px rgba(255, 255, 255, 0.6), 0 6px 10px -5px rgba(6, 24, 18, 0.55);
+  animation: shellRock 5s ease-in-out infinite;
+  transform-origin: 50% 100%;
+}
+
+.clay-chip-a {
+  left: -18%;
+}
+
+.clay-chip-b {
+  right: -14%;
+  animation-delay: 1.4s;
+  transform: scaleX(-1);
+}
