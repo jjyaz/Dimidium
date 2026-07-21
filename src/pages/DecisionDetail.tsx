@@ -226,6 +226,7 @@ function DetailBody({ decision }: { decision: Decision }) {
             <p className="detail-resolved-line">
               You chose not to chase it. The shell supports this decision.
             </p>
+            <RegretReceipt decision={decision} outcome={outcome} />
             <button
               type="button"
               className="btn btn-ghost btn-sm"
@@ -249,6 +250,100 @@ function DetailBody({ decision }: { decision: Decision }) {
         <span className="sim-note">Simulated testnet data</span>
       </div>
     </section>
+  )
+}
+
+/* ------------------------------------------------------------------ */
+
+const RECEIPT_VERBS: Record<Decision['intention'], string> = {
+  Buy: 'bought',
+  Sell: 'sold',
+  Swap: 'swapped',
+  Transfer: 'transferred',
+}
+
+/**
+ * The regret receipt: a shareable memento printed whenever a decision is
+ * returned to the shell. Signed by the half of you that waits.
+ */
+function RegretReceipt({
+  decision,
+  outcome,
+}: {
+  decision: Decision
+  outcome: ReturnType<typeof twinOutcome>
+}) {
+  const [copied, setCopied] = useState(false)
+
+  const thing =
+    decision.asset === 'ETH'
+      ? `${formatAmount(decision.amount)} ETH`
+      : `${formatAmount(decision.amount)} shares of ${decision.asset}`
+  // differenceUsd = acting − waiting; shelling means you kept the waiting side
+  const saved = outcome.differenceUsd <= 0
+  const amountUsd = formatUsd(Math.abs(outcome.differenceUsd), true)
+  const caption = `I almost ${RECEIPT_VERBS[decision.intention]} ${thing}. I didn't. I ${
+    saved ? 'saved' : 'lost'
+  } ${amountUsd}. — signed, my other half`
+
+  const shareOnX = () => {
+    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+      `${caption}\n\n🥚 Dimidium — meet the half of you that waits`,
+    )}`
+    window.open(url, '_blank', 'noopener,noreferrer')
+  }
+
+  const copyCaption = async () => {
+    try {
+      await navigator.clipboard.writeText(caption)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2200)
+    } catch {
+      setCopied(false)
+    }
+  }
+
+  return (
+    <div className="receipt-wrap">
+      <article className="receipt" aria-label="Regret receipt">
+        <header className="receipt-head">
+          <span>Dimidium</span>
+          <span>Receipt of restraint</span>
+        </header>
+        <dl className="receipt-rows">
+          <div>
+            <dt>Almost</dt>
+            <dd>
+              {RECEIPT_VERBS[decision.intention]} {thing}
+            </dd>
+          </div>
+          <div>
+            <dt>Instead</dt>
+            <dd>nothing, on purpose</dd>
+          </div>
+          <div>
+            <dt>Resolved</dt>
+            <dd>{formatDate(decision.resolvedAt ?? decision.hatchesAt)}</dd>
+          </div>
+          <div className="receipt-outcome">
+            <dt>{saved ? 'You saved' : 'You lost'}</dt>
+            <dd className={saved ? 'is-saved' : 'is-lost'}>{amountUsd}</dd>
+          </div>
+        </dl>
+        <p className="receipt-caption">“{caption}”</p>
+        <p className="receipt-fine">
+          Simulated testnet data · no eggs were traded
+        </p>
+      </article>
+      <div className="receipt-actions">
+        <button type="button" className="btn btn-shell btn-sm" onClick={shareOnX}>
+          Share on X
+        </button>
+        <button type="button" className="btn btn-ghost btn-sm" onClick={copyCaption}>
+          {copied ? 'Copied.' : 'Copy caption'}
+        </button>
+      </div>
+    </div>
   )
 }
 

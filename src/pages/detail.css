@@ -370,6 +370,125 @@
   gap: 0.8rem;
 }
 
+/* --- regret receipt ----------------------------------------------------- */
+
+.receipt-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-block: 0.6rem;
+}
+
+.receipt {
+  position: relative;
+  width: min(360px, 92vw);
+  background: var(--cream);
+  color: var(--ink);
+  padding: 1.3rem 1.4rem 1.5rem;
+  border-radius: 6px 6px 0 0;
+  box-shadow: var(--shadow-clay);
+  transform: rotate(-1.2deg);
+  font-variant-numeric: tabular-nums;
+}
+
+/* torn zigzag bottom edge, like it just came off the roll */
+.receipt::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 9px;
+  background:
+    linear-gradient(-45deg, transparent 6.4px, var(--cream) 6.5px),
+    linear-gradient(45deg, transparent 6.4px, var(--cream) 6.5px);
+  background-size: 13px 9px;
+  background-position: left top;
+  background-repeat: repeat-x;
+}
+
+.receipt-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-bottom: 2px dashed rgba(16, 46, 36, 0.25);
+  padding-bottom: 0.7rem;
+}
+
+.receipt-rows {
+  margin: 0.9rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.receipt-rows > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.receipt-rows dt {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(16, 46, 36, 0.55);
+}
+
+.receipt-rows dd {
+  margin: 0;
+  font-weight: 600;
+  text-align: right;
+}
+
+.receipt-outcome {
+  border-top: 2px dashed rgba(16, 46, 36, 0.25);
+  padding-top: 0.55rem;
+  margin-top: 0.35rem;
+}
+
+.receipt-outcome dd {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.35rem;
+}
+
+.receipt-outcome dd.is-saved {
+  color: var(--green-rich);
+}
+
+.receipt-outcome dd.is-lost {
+  color: var(--coral);
+}
+
+.receipt-caption {
+  margin-top: 0.9rem;
+  font-style: italic;
+  font-size: 0.88rem;
+  color: rgba(16, 46, 36, 0.8);
+}
+
+.receipt-fine {
+  margin-top: 0.8rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(16, 46, 36, 0.45);
+}
+
+.receipt-actions {
+  display: flex;
+  gap: 0.7rem;
+}
+
 .detail-flash {
   position: fixed;
   bottom: 1.6rem;
