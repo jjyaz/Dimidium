@@ -1,0 +1,154 @@
+.how {
+  padding-block: clamp(2rem, 5vw, 4rem);
+}
+
+.how-head h1 {
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  margin-top: 0.3rem;
+}
+
+.how-sub {
+  color: var(--cream-60);
+  max-width: 52ch;
+  margin-top: 0.8rem;
+  font-size: 1.02rem;
+}
+
+.how-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 1.4rem;
+  align-items: center;
+}
+
+.how-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: var(--eggshell);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.88rem;
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  box-shadow: var(--shadow-float);
+}
+
+/* --- steps -------------------------------------------------------------- */
+
+.how-steps {
+  list-style: none;
+  padding: 0;
+  margin: clamp(2.5rem, 6vw, 4rem) 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.6rem, 4vw, 2.6rem);
+}
+
+.how-step {
+  display: flex;
+  gap: 1.4rem;
+  align-items: baseline;
+  max-width: 560px;
+  background: rgba(16, 46, 36, 0.45);
+  border: 1px solid var(--cream-14);
+  border-radius: 40px 54px 44px 36px / 46px 38px 50px 42px;
+  padding: 1.4rem 1.7rem;
+}
+
+.how-step-2 {
+  margin-left: clamp(0rem, 12vw, 9rem);
+  border-radius: 54px 38px 48px 58px / 40px 52px 38px 48px;
+}
+
+.how-step-3 {
+  margin-left: clamp(0rem, 5vw, 4rem);
+}
+
+.how-step-n {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: var(--yolk);
+  flex-shrink: 0;
+}
+
+.how-step h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.how-step p {
+  color: var(--cream-60);
+  margin-top: 0.4rem;
+}
+
+/* --- chain box ------------------------------------------------------------ */
+
+.how-chain {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: center;
+  margin-top: clamp(3rem, 7vw, 5rem);
+  background: var(--eggshell);
+  color: var(--ink);
+  border-radius: 60px 44px 56px 48px / 50px 58px 44px 54px;
+  padding: clamp(1.6rem, 4vw, 2.6rem);
+  box-shadow: var(--shadow-clay);
+}
+
+.how-chain h2 {
+  font-size: 1.4rem;
+}
+
+.how-chain-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem 2.4rem;
+  margin: 1rem 0 0;
+}
+
+.how-chain-facts dt {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(16, 46, 36, 0.55);
+}
+
+.how-chain-facts dd {
+  margin: 0.15rem 0 0;
+  font-weight: 600;
+  word-break: break-all;
+}
+
+.how-chain-facts code {
+  font-size: 0.88em;
+}
+
+.how-chain a {
+  color: var(--green-rich);
+}
+
+.how-demo-note {
+  margin-top: 1.1rem;
+  font-size: 0.88rem;
+  color: rgba(16, 46, 36, 0.7);
+  max-width: 60ch;
+}
+
+.how-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  text-align: center;
+  margin-top: clamp(3rem, 7vw, 5rem);
+}
+
+.how-cta h2 {
+  font-size: clamp(1.6rem, 3.4vw, 2.3rem);
+}
