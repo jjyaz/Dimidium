@@ -40,6 +40,33 @@ Then open the printed local URL. Build for production with `npm run build`.
 - `/egg/:id` — Incubation detail: countdown, twin HATCH/SHELL timelines, actions
 - `/dna` — Decision DNA: five-lobed behavioral portrait and Shell Fragments
 - `/how-it-works` — Future architecture and chain details
+- `/agents` — Hire Dimidium's twin: MCP tool docs + live try-it
+
+## Hire Dimidium's twin (MCP)
+
+Dimidium is your other half — now he's an agent other agents can hire.
+
+```bash
+npm run mcp
+```
+
+That starts a Streamable HTTP MCP server at
+`http://localhost:8787/api/public/mcp` with one tool:
+
+```
+askDimidium(asset, intention, amount, timer)
+```
+
+It returns a Washi-flavored second opinion plus a simulated Hatch/Shell
+projection. Vite proxies `/api` to the MCP server during `npm run dev`, so
+the same route works in the browser. Smoke-test it with:
+
+```bash
+npm run mcp:test
+```
+
+Cursor / Claude config snippets live on `/agents`. Replace `YOUR_HOST` with
+your deployed twin.
 
 ## Wallet & chain
 
@@ -65,6 +92,7 @@ instructions; the generated ABI is exported to the frontend at
 - React 19 + TypeScript + Vite
 - React Router for real routes
 - Wagmi + Viem for wallet/network behavior
+- Model Context Protocol (`askDimidium` via Streamable HTTP)
 - Plain hand-rolled CSS — soft 3D clay design system, film grain, organic
   egg shapes, `prefers-reduced-motion` respected throughout
 - Demo decisions persist in `localStorage` (seeded with four examples on
