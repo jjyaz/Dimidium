@@ -68,6 +68,14 @@ npm run mcp:test
 Cursor / Claude config snippets live on `/agents`. Replace `YOUR_HOST` with
 your deployed twin.
 
+## Shell yield (Atelier Earn)
+
+When a decision is **shelled**, Dimidium shows what that idle notional could
+have earned napping in Atelier Earn. The card pulls the live **Solend USDC
+supply APY** (`api.solend.fi`) and pro-rates it over the egg's wait window.
+If Solend is unreachable, a cached/fallback rate keeps Demo Mode honest.
+There is also a small proxy at `GET /api/earn/solend` on the MCP server.
+
 ## Wallet & chain
 
 The app uses Wagmi + Viem and is configured for **Robinhood Chain Testnet**

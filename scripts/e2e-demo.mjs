@@ -113,7 +113,7 @@ try {
   check('ready filter shows list or empty state', readyEmpty !== null || readyCount > 0)
   await page.screenshot({ path: `${shots}/e2e-nursery.png` })
 
-  // 8b. Regret receipt on a shelled decision
+  // 8b. Regret receipt + Shell yield on a shelled decision
   await page.goto(`${BASE}/egg/seed-63`, { waitUntil: 'networkidle0' })
   await page.waitForSelector('.receipt', { timeout: 4000 })
   const receiptCaption = await page.$eval('.receipt-caption', (el) => el.textContent)
@@ -129,6 +129,19 @@ try {
     'receipt share/copy buttons present',
     receiptBtns.length === 2,
     receiptBtns.join(' | '),
+  )
+  await page.waitForSelector('.shell-yield', { timeout: 8000 })
+  const yieldHeadline = await page.$eval('.shell-yield-headline', (el) => el.textContent)
+  check(
+    'shell yield card shows Atelier Earn story',
+    /could've earned .+% in Atelier Earn/.test(yieldHeadline),
+    yieldHeadline.slice(0, 100),
+  )
+  const yieldSource = await page.$eval('.shell-yield-source', (el) => el.textContent)
+  check(
+    'shell yield cites Solend source',
+    /Solend|Fallback|Cached/.test(yieldSource),
+    yieldSource,
   )
   await page.screenshot({ path: `${shots}/e2e-receipt.png` })
 
