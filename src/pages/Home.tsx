@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Mascot } from '../components/Mascot'
 import { ClayEgg } from '../components/ClayEgg'
 import { decisionStore } from '../lib/store'
-import { BASE_PRICES, formatUsd } from '../lib/prices'
+import { getCachedSpotPrice, formatUsd } from '../lib/prices'
 import {
   ASSETS,
   INCUBATION_PRESETS,
@@ -248,7 +248,7 @@ export function Composer() {
             ))}
           </div>
           <span className="lab-hint">
-            Demo price: {formatUsd(BASE_PRICES[asset])}
+            Demo price: {formatUsd(getCachedSpotPrice(asset).price)}
           </span>
         </div>
 
@@ -328,7 +328,7 @@ export function Composer() {
           </div>
           {amountNum > 0 && !Number.isNaN(amountNum) && (
             <span className="lab-hint">
-              ≈ {formatUsd(amountNum * BASE_PRICES[asset])} simulated
+              ≈ {formatUsd(amountNum * getCachedSpotPrice(asset).price)} simulated
             </span>
           )}
         </div>

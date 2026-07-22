@@ -5,7 +5,7 @@ import { ClayEgg } from '../components/ClayEgg'
 import { StatusPill } from '../components/StatusPill'
 import { ShellYieldCard } from '../components/ShellYieldCard'
 import { useDecision, decisionStore } from '../lib/store'
-import { formatUsd, formatAmount, twinOutcome, pricePath } from '../lib/prices'
+import { formatUsd, formatAmount, twinOutcome, pricePath, PRICE_QUOTE_TTL_MS } from '../lib/prices'
 import { liveState, type Decision } from '../lib/types'
 import {
   formatDate,
@@ -45,16 +45,18 @@ export function DecisionDetail() {
 type FxState = 'none' | 'hatching' | 'shelling' | 'stretching'
 
 function DetailBody({ decision }: { decision: Decision }) {
+  // Countdown needs 1Hz; price/twin path only refreshes on a slow cadence
+  // (and is memoized by path index anyway) so we never constantly re-subscribe.
   const now = useNow(1000)
+  const priceNow = useNow(PRICE_QUOTE_TTL_MS)
   const reducedMotion = usePrefersReducedMotion()
   const [fx, setFx] = useState<FxState>('none')
   const [flash, setFlash] = useState<string | null>(null)
 
   const state = liveState(decision, now)
   const outcome = useMemo(
-    () => twinOutcome(decision, decision.resolvedAt ?? now),
-    // Recompute at second granularity via `now`.
-    [decision, now],
+    () => twinOutcome(decision, decision.resolvedAt ?? priceNow),
+    [decision, priceNow],
   )
   const remaining = decision.hatchesAt - now
 
