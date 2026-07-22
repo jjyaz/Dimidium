@@ -161,7 +161,42 @@ app.get('/healthz', (_req, res) => {
   res.json({ ok: true, egg: 'concentrating' })
 })
 
+/** Proxy Solend USDC supply APY for Shell yield / Atelier Earn cards. */
+const SOLEND_USDC_RESERVE = 'BgxfHJDzm44T7XG68MYKx7YisTjZu73tVovyZSjJMpmw'
+app.get('/api/earn/solend', async (_req, res) => {
+  try {
+    const upstream = await fetch(
+      `https://api.solend.fi/v1/reserves?ids=${SOLEND_USDC_RESERVE}`,
+      { headers: { Accept: 'application/json' } },
+    )
+    if (!upstream.ok) {
+      res.status(502).json({ error: 'Solend was quiet.', status: upstream.status })
+      return
+    }
+    const data = (await upstream.json()) as {
+      results?: Array<{ rates?: { supplyInterest?: string; borrowInterest?: string } }>
+    }
+    const supplyInterest = Number(data.results?.[0]?.rates?.supplyInterest)
+    if (!Number.isFinite(supplyInterest)) {
+      res.status(502).json({ error: 'Solend APY missing.' })
+      return
+    }
+    res.json({
+      reserve: SOLEND_USDC_RESERVE,
+      supplyApyPct: supplyInterest,
+      borrowApyPct: Number(data.results?.[0]?.rates?.borrowInterest ?? NaN),
+      source: 'solend',
+      product: 'Atelier Earn',
+      fetchedAt: Date.now(),
+    })
+  } catch (err) {
+    console.error('Solend proxy failed:', err)
+    res.status(502).json({ error: 'Solend was quiet.' })
+  }
+})
+
 app.listen(PORT, () => {
   console.log(`Dimidium MCP server listening on http://localhost:${PORT}${MCP_PATH}`)
   console.log('Tool: askDimidium(asset, intention, amount, timer)')
+  console.log(`Earn proxy: http://localhost:${PORT}/api/earn/solend`)
 })
