@@ -140,9 +140,24 @@ try {
   check('fragments earned', frags >= 3, `${frags} earned`)
   await page.screenshot({ path: `${shots}/e2e-dna.png` })
 
-  // 10. How it works + 404
+  // 10. How it works + agents + 404
   await page.goto(`${BASE}/how-it-works`, { waitUntil: 'networkidle0' })
   check('how it works renders', (await page.$$('.how-step')).length === 5)
+
+  await page.goto(`${BASE}/agents`, { waitUntil: 'networkidle0' })
+  await page.waitForSelector('#try-heading')
+  await page.type('#agent-amount', '')
+  await page.click('#agent-amount', { clickCount: 3 })
+  await page.type('#agent-amount', '1')
+  await page.click('.agents-form button[type=submit]')
+  await page.waitForSelector('.oracle-card', { timeout: 4000 })
+  const opinion = await page.$eval('.oracle-opinion', (el) => el.textContent)
+  check('agents try-it returns opinion', !!opinion && opinion.length > 20, opinion.slice(0, 60))
+  check(
+    'agents page documents MCP endpoint',
+    (await page.$eval('.agents-facts', (el) => el.textContent)).includes('askDimidium'),
+  )
+
   await page.goto(`${BASE}/egg/does-not-exist`, { waitUntil: 'networkidle0' })
   const missing = await page.$('.detail-missing')
   check('unknown egg shows empty state', missing !== null)
