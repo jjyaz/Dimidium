@@ -7,6 +7,7 @@ import { Nursery } from './pages/Nursery'
 import { DecisionDetail } from './pages/DecisionDetail'
 import { DecisionDNA } from './pages/DecisionDNA'
 import { HowItWorks } from './pages/HowItWorks'
+import { Agents } from './pages/Agents'
 import { NotFound } from './pages/NotFound'
 
 export default function App() {
@@ -35,6 +36,7 @@ export default function App() {
             <Route path="/egg/:id" element={<DecisionDetail />} />
             <Route path="/dna" element={<DecisionDNA />} />
             <Route path="/how-it-works" element={<HowItWorks />} />
+            <Route path="/agents" element={<Agents />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>

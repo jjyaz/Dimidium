@@ -10,6 +10,7 @@ const LINKS = [
   { to: '/nursery', label: 'Nursery' },
   { to: '/dna', label: 'Decision DNA' },
   { to: '/how-it-works', label: 'How It Works' },
+  { to: '/agents', label: 'Agents' },
 ]
 
 type Mood = 'calm' | 'sleepy' | 'alert'
