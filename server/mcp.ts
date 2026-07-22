@@ -161,37 +161,81 @@ app.get('/healthz', (_req, res) => {
   res.json({ ok: true, egg: 'concentrating' })
 })
 
-/** Proxy Solend USDC supply APY for Shell yield / Atelier Earn cards. */
+/** Proxy Solend USDC supply APY for Shell yield / Atelier Earn cards.
+ *  Responses are TTL-cached in memory so incubation traffic does not hammer Solend. */
 const SOLEND_USDC_RESERVE = 'BgxfHJDzm44T7XG68MYKx7YisTjZu73tVovyZSjJMpmw'
-app.get('/api/earn/solend', async (_req, res) => {
-  try {
-    const upstream = await fetch(
-      `https://api.solend.fi/v1/reserves?ids=${SOLEND_USDC_RESERVE}`,
-      { headers: { Accept: 'application/json' } },
-    )
-    if (!upstream.ok) {
-      res.status(502).json({ error: 'Solend was quiet.', status: upstream.status })
-      return
+const APY_TTL_MS = 15 * 60 * 1000
+let apyCache:
+  | {
+      body: {
+        reserve: string
+        supplyApyPct: number
+        borrowApyPct: number
+        source: string
+        product: string
+        fetchedAt: number
+        cache: 'miss' | 'hit'
+      }
+      expiresAt: number
     }
-    const data = (await upstream.json()) as {
-      results?: Array<{ rates?: { supplyInterest?: string; borrowInterest?: string } }>
-    }
-    const supplyInterest = Number(data.results?.[0]?.rates?.supplyInterest)
-    if (!Number.isFinite(supplyInterest)) {
-      res.status(502).json({ error: 'Solend APY missing.' })
-      return
-    }
-    res.json({
+  | null = null
+let apyInflight: Promise<typeof apyCache> | null = null
+
+async function loadSolendApy() {
+  const upstream = await fetch(
+    `https://api.solend.fi/v1/reserves?ids=${SOLEND_USDC_RESERVE}`,
+    { headers: { Accept: 'application/json' } },
+  )
+  if (!upstream.ok) {
+    throw Object.assign(new Error('Solend was quiet.'), { status: upstream.status })
+  }
+  const data = (await upstream.json()) as {
+    results?: Array<{ rates?: { supplyInterest?: string; borrowInterest?: string } }>
+  }
+  const supplyInterest = Number(data.results?.[0]?.rates?.supplyInterest)
+  if (!Number.isFinite(supplyInterest)) {
+    throw new Error('Solend APY missing.')
+  }
+  const fetchedAt = Date.now()
+  apyCache = {
+    body: {
       reserve: SOLEND_USDC_RESERVE,
       supplyApyPct: supplyInterest,
       borrowApyPct: Number(data.results?.[0]?.rates?.borrowInterest ?? NaN),
       source: 'solend',
       product: 'Atelier Earn',
-      fetchedAt: Date.now(),
-    })
+      fetchedAt,
+      cache: 'miss',
+    },
+    expiresAt: fetchedAt + APY_TTL_MS,
+  }
+  return apyCache
+}
+
+app.get('/api/earn/solend', async (_req, res) => {
+  try {
+    if (apyCache && Date.now() < apyCache.expiresAt) {
+      res.json({ ...apyCache.body, cache: 'hit' })
+      return
+    }
+    if (!apyInflight) {
+      apyInflight = loadSolendApy().finally(() => {
+        apyInflight = null
+      })
+    }
+    const fresh = await apyInflight
+    res.json(fresh!.body)
   } catch (err) {
     console.error('Solend proxy failed:', err)
-    res.status(502).json({ error: 'Solend was quiet.' })
+    if (apyCache) {
+      res.json({ ...apyCache.body, cache: 'stale', source: 'cache' })
+      return
+    }
+    const status = (err as { status?: number }).status
+    res.status(502).json({
+      error: 'Solend was quiet.',
+      status: status ?? 502,
+    })
   }
 })
 
