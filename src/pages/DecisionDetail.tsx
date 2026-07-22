@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { Mascot } from '../components/Mascot'
 import { ClayEgg } from '../components/ClayEgg'
 import { StatusPill } from '../components/StatusPill'
+import { ShellYieldCard } from '../components/ShellYieldCard'
 import { useDecision, decisionStore } from '../lib/store'
 import { formatUsd, formatAmount, twinOutcome, pricePath } from '../lib/prices'
 import { liveState, type Decision } from '../lib/types'
@@ -227,6 +228,7 @@ function DetailBody({ decision }: { decision: Decision }) {
               You chose not to chase it. The shell supports this decision.
             </p>
             <RegretReceipt decision={decision} outcome={outcome} />
+            <ShellYieldCard decision={decision} />
             <button
               type="button"
               className="btn btn-ghost btn-sm"
