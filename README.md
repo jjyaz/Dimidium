@@ -73,8 +73,11 @@ your deployed twin.
 When a decision is **shelled**, Dimidium shows what that idle notional could
 have earned napping in Atelier Earn. The card pulls the live **Solend USDC
 supply APY** (`api.solend.fi`) and pro-rates it over the egg's wait window.
-If Solend is unreachable, a cached/fallback rate keeps Demo Mode honest.
-There is also a small proxy at `GET /api/earn/solend` on the MCP server.
+Lookups are TTL-cached in memory + `localStorage` (15 minutes fresh, 2 hours
+stale-ok) with in-flight coalescing, and the MCP proxy at
+`GET /api/earn/solend` caches the same way — incubation screens never keep a
+live Solend subscription open. Simulated price paths are memoized by seed and
+only refresh on a 30s cadence during incubation.
 
 ## Wallet & chain
 
